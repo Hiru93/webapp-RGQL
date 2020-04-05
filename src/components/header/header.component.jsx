@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { auth } from '../../firebase/firebase.utils';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import './header.styles.scss';
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
   <div className='header'>
     <Link className='logo-container' to='/'>
       <Logo className='logo' />
@@ -29,12 +31,24 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       )}
+      <CartIcon />
     </div>
+    { hidden ? null : <CartDropdown /> }
   </div>
 );
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+/**
+ * This litterally means, take the 'currentUser' value from the user object and
+ * the 'hidden0 value from the cart object.
+ * This way, we obtain an object structured like this
+ * {
+ *  currentUser: currentUser.value,
+ *  hidden: hidden.value
+ * }
+ */
+const mapStateToProps = ({user: { currentUser }, cart: { hidden }}) => ({
+  currentUser,
+  hidden
 });
 
 export default connect(mapStateToProps)(Header);
