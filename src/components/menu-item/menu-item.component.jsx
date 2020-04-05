@@ -1,11 +1,14 @@
+  
 import React from 'react';
-/** Higher order component, function that accept a component, modify it and then return it */
 import { withRouter } from 'react-router-dom';
 
 import './menu-item.styles.scss';
 
 const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
-  <div className={`${size} menu-item`} onClick={ () => history.push(`${match.url}${linkUrl}`) }>
+  <div
+    className={`${size} menu-item`}
+    onClick={() => history.push(`${match.url}${linkUrl}`)}
+  >
     <div
       className='background-image'
       style={{
@@ -19,5 +22,4 @@ const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
   </div>
 );
 
-/** Returns a "menuItem" component with access to match and history props access */
 export default withRouter(MenuItem);
