@@ -40,10 +40,9 @@ class App extends React.Component {
             ...snapShot.data()
           });
         });
-      } else {
-        /** If the returned obj (our user) is null, we need to update our state according to that */
+      }
+      /** If the returned obj (our user) is null, we need to update our state according to that */
       setCurrentUser(userAuth);
-    }
     });
   }
   
