@@ -12,6 +12,8 @@ const config = {
     appId: "1:1021386231240:web:b354643a9c4dbe135144fd",
     measurementId: "G-3953QFYTX1"
   };
+  
+firebase.initializeApp(config);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if(!userAuth) return;
@@ -29,6 +31,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   * It cannot be modified and will never change (to modify data, you always call the set() method on a Reference directly)
   */
   const snapShot = await userRef.get();
+  
   if(!snapShot.exsists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
@@ -50,9 +53,40 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   }
 
   return userRef;
-}
+};
 
-firebase.initializeApp(config);
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  
+  const batch = firestore.batch();
+  
+  objectsToAdd.forEach(obj => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  return await batch.commit();
+};
+
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+
+    return {
+      /** Parses a string creating a 'url friendly' version of it */
+      routeName: encodeURI(title.toLowerCase()),
+       id: doc.id,
+       title,
+       items
+    }
+  });
+
+  /** Creates a js map that has for key value the lowercase title of each object */
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {})
+}
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
