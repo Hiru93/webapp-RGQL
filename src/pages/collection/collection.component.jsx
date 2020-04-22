@@ -36,6 +36,6 @@ const mapStateToProps = (state, ownProps) => ({
      * (the expected param is "collectionUrlParam" inside the selector definition file)
      */
     collection: selectCollection(ownProps.match.params.collectionId)(state)
-});
-
-export default connect(mapStateToProps)(CollectionPage);
+  });
+  
+  export default connect(mapStateToProps)(CollectionPage);

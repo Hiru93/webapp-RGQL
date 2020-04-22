@@ -55,11 +55,13 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
   const collectionRef = firestore.collection(collectionKey);
-  
+
   const batch = firestore.batch();
-  
   objectsToAdd.forEach(obj => {
     const newDocRef = collectionRef.doc();
     batch.set(newDocRef, obj);
@@ -75,18 +77,18 @@ export const convertCollectionsSnapshotToMap = collections => {
     return {
       /** Parses a string creating a 'url friendly' version of it */
       routeName: encodeURI(title.toLowerCase()),
-       id: doc.id,
-       title,
-       items
-    }
+      id: doc.id,
+      title,
+      items
+    };
   });
 
   /** Creates a js map that has for key value the lowercase title of each object */
   return transformedCollection.reduce((accumulator, collection) => {
     accumulator[collection.title.toLowerCase()] = collection;
     return accumulator;
-  }, {})
-}
+  }, {});
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
