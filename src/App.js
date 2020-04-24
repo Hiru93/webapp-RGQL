@@ -22,28 +22,28 @@ class App extends React.Component {
   componentDidMount() {
     const { setCurrentUser } = this.props;
 
-    /** Create the subscription of a user */
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if(userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
+    // /** Create the subscription of a user */
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if(userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth);
 
-        /**
-         * From the firebase documentation
-         * 
-         * A DataSnapshot is an efficiently generated, immutable copy of the data at a Database location. 
-         * It cannot be modified and will never change (to modify data, you always call the set() method on a Reference directly)
-         */
-        userRef.onSnapshot(snapShot => {
-          /** Data as a snapshot from our firebase db */
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        });
-      }
-      /** If the returned obj (our user) is null, we need to update our state according to that */
-      setCurrentUser(userAuth);
-    });
+    //     /**
+    //      * From the firebase documentation
+    //      * 
+    //      * A DataSnapshot is an efficiently generated, immutable copy of the data at a Database location. 
+    //      * It cannot be modified and will never change (to modify data, you always call the set() method on a Reference directly)
+    //      */
+    //     userRef.onSnapshot(snapShot => {
+    //       /** Data as a snapshot from our firebase db */
+    //       setCurrentUser({
+    //         id: snapShot.id,
+    //         ...snapShot.data()
+    //       });
+    //     });
+    //   }
+    //   /** If the returned obj (our user) is null, we need to update our state according to that */
+    //   setCurrentUser(userAuth);
+    // });
   }
   
   componentWillUnmount() {
